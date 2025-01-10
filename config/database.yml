@@ -16,8 +16,13 @@ test:
   database: jdv_test
 
 
+#production:
+ # <<: *default
+  #database: jdv_production
+  #username: jdv
+  #password: <%= ENV["JDV_DATABASE_PASSWORD"] %>
+
+
 production:
   <<: *default
-  database: jdv_production
-  username: jdv
-  password: <%= ENV["JDV_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
