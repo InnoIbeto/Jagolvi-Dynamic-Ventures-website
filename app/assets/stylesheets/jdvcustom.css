@@ -20,16 +20,6 @@
     color: #e7e3e3;
 }
 
-.index-footer {
-    background-image: url('Index background Image.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center; 
-    min-height: 300px;
-    /* width: 100%; */
-}
-  
-
 /*
 body {
     font-family: 'Arial', sans-serif; 
