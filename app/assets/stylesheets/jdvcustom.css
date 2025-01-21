@@ -3,23 +3,32 @@
     margin-right: 60px; 
 }
 
-/* .custom-navbar {
-    background-color: #cce5ff; 
-    border-bottom: 2px solid #b8daff; 
-}  
-.nav-link {
-    color: #0056b3; 
+/* Show the dropdown menu on hover */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+
+.index-row-2 {
+    /* background styling */
+    background-color: #1f1f1f; 
+    padding: 20px; 
+    border-radius: 8px; 
+
+    /* text styling  */
+    font-family: 'Arial', sans-serif;
+    color: #e7e3e3;
+}
+
+.index-footer {
+    background-image: url('Index background Image.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; 
+    min-height: 300px;
+    /* width: 100%; */
 }
   
-.nav-link:hover, .nav-link.active {
-    color: #003d80; 
-} */
-
-.temp-custom-section {
-    background-color: #cce5ff; /* Black background */
-    padding: 20px; /* Add padding for spacing */
-    border-radius: 8px; /* Optional: rounded corners */
-}
 
 /*
 body {
