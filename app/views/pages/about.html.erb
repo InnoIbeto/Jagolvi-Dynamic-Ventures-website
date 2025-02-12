@@ -1,13 +1,105 @@
-<main class="container">
+<main class="container about-container">
 
-  <div class="row text-center justify-content-center">
-    <div class="col-md-6">
-      <h1 class=" display-4">ABOUT PAGE UNDER CONSTRUCTION</h1>
+  <div class="row about-row-1 my-2">
+
+    <div class="col-md">
+
+      <h2 class="text-center display-6">About Jagolvi Dynamic Ventures</h2>
+
+      <p class="text-justify">
+       At Jdv, we are committed to keeping trucks on the road with premium spare parts and expert repair solutions. Based in Abuja, Nigeria, we serve truck owners, fleet operators, and retailers across the country, delivering high-quality parts and linking customers with trusted mechanics and repair specialists.
+
+       With a vision for nationwide and international expansion, we take pride in offering only the best industry-standard products, ensuring reliability and durability in every purchase. Whether you're a large-scale fleet manager, an independent truck owner, or a reseller, we provide top-tier parts and seamless services to keep your operations running smoothly.
+
+      </p>
+
+      <em>At Jagolvi Dynamic Ventures, quality isn’t just a promise—it’s our standard.</em>
+
+    </div>
+  </div>
+
+
+  <div class="row about-row-2">
+  
+    <div class="row text-center justify-content-center my-3">
+      <h2 class="display-6">Our Expertise & Industry Experience (Why Trust Us?)</h2>
+
+      <div class="col-md-6">
+        <%= image_tag('PwSupplier.jpg', class: 'img-fluid mb-3 media-fixed') %>
+        <i>  JDV’s CEO with an Indian supplier in the office </i>
+      </div>
+
+      <div class="col-md-6">
+        <p class="text-justify custom-margin">
+          "At JDV, we partner directly with top-tier manufacturers and suppliers, ensuring that every spare part meets international quality standards. By eliminating middlemen, we provide authentic, high-performance truck components at competitive prices. Our commitment to quality sourcing gives our customers peace of mind—every product we sell is genuine, durable, and built to last."
+        </p>
+      </div>
     </div>
 
-    <div class="col-md-6">
-      <%= image_tag('Under Construction Image.png', alt: 'Under Construction Image', class: 'img-fluid mb-3') %>
+
+    <div class="row text-center justify-content-center my-3">
+      <div class="col-md-6">
+        <p class="text-justify custom-margin">
+          "At JDV, we serve a wide range of clients—from independent truck owners to corporate fleet managers and even military personnel. Our products undergo strict quality inspections to ensure durability under the toughest conditions. Whether you're hauling heavy cargo or managing a fleet, you can trust JDV to keep your trucks moving safely and efficiently."
+        </p>
+      </div>
+
+      <div class="col-md-6">
+        <%= image_tag('PwCustomer.jpg', class: 'img-fluid media-fixed') %>
+        <i>  JDV spare parts being delivered to xyz military site </i>
+      </div>
+    </div>
+
+
+    <div class="row text-center justify-content-center my-3">
+      <div class="col-md-6">
+        <%= video_tag "PwShipment.mp4", class: "img-fluid media-fixed", controls: true %>
+        <i> Shipment arriving in Nigeria & being offloaded </i>
+      </div>
+
+      <div class="col-md-6">
+        <p class="text-justify custom-margin">
+          "Our sourcing process doesn’t stop at procurement—we ensure smooth logistics from importation to final delivery. Here’s a look at one of our recent shipments arriving in Nigeria. Every product undergoes strict quality checks before distribution, ensuring that our customers receive only the best."
+        </p>
+        
+      </div>
     </div>
 
   </div>
+
+  <div class="row about-row-3 text-center justify-content-center my-3">
+    <h2 class="display-6">Meet Our Founder & CEO</h2>
+
+
+    <div class="col-md-3">
+      <p class="text-justify">
+        Our CEO, Ibeto Kingsley Ikemefuna, is a graduate of Economics, blending academic knowledge with hands-on experience in the truck spare parts industry. His journey began in Lagos, Nigeria, where he honed his skills, working closely with top suppliers and industry experts. Recognizing the demand for high-quality, reliable spare parts in Northern Nigeria, he took a bold step—relocating to Abuja to establish JDV, with a mission to serve truck owners, fleet operators, and retailers across the region.
+      </p>
+    </div>
+
+    <div class="col-md-6">
+      <%= image_tag('ceo.JPG', class: 'img-fluid mb-3 media-fixed') %>
+    </div>
+
+    <div class="col-md-3">
+      <ul>
+        <p class="text-justify">
+          Beyond business, our CEO prioritizes customer satisfaction and employee growth.<br><br> Under his leadership:
+        <p>
+        <li class="text-justify">Customers receive only the highest quality parts with trusted service.</li>
+        <li class="text-justify">JDV maintains strong supplier relationships, guaranteeing authentic products.</li>
+        <li class="text-justify">Employees are valued, trained, and empowered to provide world-class service.</li>
+      </ul>
+    </div>
+  </div>
+
+ 
+
+  <div class="row about-row-4 text-center justify-content-center my-3">
+    <div class="d-grid gap-2 d-md-block">
+      Find the best spare parts for your trucks—quality you can trust!🔧🚛
+      <%= link_to 'Order Now', pages_products_path, class: "btn btn-outline-info" %>
+    </div>
+  </div>
+  
 </main>

@@ -8,6 +8,9 @@
     display: block;
 }
 
+.index-row-1 {
+    background-color: white; 
+}
 
 .index-row-2 {
     /* background styling */
@@ -20,6 +23,62 @@
     color: #e7e3e3;
 }
 
+.index-row-3 {
+    background-color: white; 
+}
+
+
+.text-justify {
+    text-align: justify;
+}
+
+.media-fixed {
+    height: 400px; /* Adjust based on your layout */
+    object-fit: contain; /* Ensures the image/video fills the container without distortion */
+    width: 100%; /* Makes sure it scales properly */
+}
+
+.about-container {
+    background-color:white;
+}
+  
+.about-row-1 {
+    background-color:rgb(18, 18, 34);
+    color: whitesmoke;
+    line-height: 2;
+    border-radius: 8px; 
+    padding: 20px;
+}
+
+.custom-margin {
+    margin-top: 80px;
+
+}
+
+.about-row-2 {
+    background-color:black;
+    color: whitesmoke;
+    line-height: 2;
+    border-radius: 8px; 
+    padding: 20px;
+}
+
+.about-row-3 {
+    background-color:rgb(18, 18, 34);
+    color: whitesmoke;
+    line-height: 2;
+    border-radius: 8px; 
+    padding: 20px;
+}
+
+
+.about-row-4 {
+    font-family: 'Arial', sans-serif; 
+    background-color: white;
+    color: black;
+    border-radius: 8px; 
+    padding: 20px;
+}
 /*
 body {
     font-family: 'Arial', sans-serif; 
