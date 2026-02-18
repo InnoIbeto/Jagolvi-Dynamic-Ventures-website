@@ -29,8 +29,8 @@ const Contact = () => {
     };
 
     return (
-        <main className="container section-padding fade-in">
-            <div className="row text-center mb-5">
+        <main className="container py-4 py-md-5 fade-in">
+            <div className="row text-center mb-4 mb-md-5">
                 <div className="col-12">
                     <h1 className="display-4 fw-bold">Let's <span className="text-primary">Connect</span></h1>
                     <p className="lead text-muted">We're here to support your truck maintenance and parts needs.</p>
@@ -40,10 +40,10 @@ const Contact = () => {
             <div className="row g-4 justify-content-center">
                 <div className="col-lg-4">
                     <div className="bg-light contact-card shadow-sm h-100">
-                        <h2 className="fs-3 fw-bold mb-4 text-center text-lg-start">Contact Info</h2>
+                        <h2 className="fs-4 fs-lg-3 fw-bold mb-3 mb-lg-4 text-center text-lg-start">Contact Info</h2>
                         <div className="d-flex align-items-center mb-3 contact-info-item bg-white shadow-sm">
-                            <div className="bg-primary-subtle p-2 rounded-circle me-3">
-                                <i className="bi bi-telephone text-primary fs-4"></i>
+                            <div className="bg-primary-subtle p-2 rounded-circle me-3 flex-shrink-0">
+                                <i className="bi bi-telephone text-primary fs-5"></i>
                             </div>
                             <div>
                                 <div className="text-muted small">Hotline</div>
@@ -51,8 +51,8 @@ const Contact = () => {
                             </div>
                         </div>
                         <div className="d-flex align-items-center mb-3 contact-info-item bg-white shadow-sm">
-                            <div className="bg-primary-subtle p-2 rounded-circle me-3">
-                                <i className="bi bi-whatsapp text-primary fs-4"></i>
+                            <div className="bg-primary-subtle p-2 rounded-circle me-3 flex-shrink-0">
+                                <i className="bi bi-whatsapp text-primary fs-5"></i>
                             </div>
                             <div>
                                 <div className="text-muted small">WhatsApp</div>
@@ -60,8 +60,8 @@ const Contact = () => {
                             </div>
                         </div>
                         <div className="d-flex align-items-center contact-info-item bg-white shadow-sm">
-                            <div className="bg-primary-subtle p-2 rounded-circle me-3">
-                                <i className="bi bi-envelope text-primary fs-4"></i>
+                            <div className="bg-primary-subtle p-2 rounded-circle me-3 flex-shrink-0">
+                                <i className="bi bi-envelope text-primary fs-5"></i>
                             </div>
                             <div>
                                 <div className="text-muted small">Email Address</div>
@@ -85,7 +85,7 @@ const Contact = () => {
 
                 <div className="col-lg-6">
                     <div className="bg-white contact-card shadow-lg border h-100">
-                        <h2 className="fs-3 fw-bold mb-4">Quick Inquiry</h2>
+                        <h2 className="fs-4 fs-lg-3 fw-bold mb-3 mb-lg-4">Quick Inquiry</h2>
                         <form onSubmit={sendToWhatsApp}>
                             <div className="row g-3">
                                 <div className="col-md-6">
@@ -108,7 +108,7 @@ const Contact = () => {
                                     <label className="form-label fw-semibold small">Message</label>
                                     <textarea className="form-control form-control-compact bg-light border-0" id="message" rows="3" placeholder="Tell us more about what you need..." onChange={handleChange}></textarea>
                                 </div>
-                                <div className="col-12 mt-4">
+                                <div className="col-12 mt-3 mt-md-4">
                                     <button type="submit" className="btn btn-primary btn-lg w-100 shadow-sm py-2 fw-bold">Send Message</button>
                                 </div>
                             </div>
@@ -117,11 +117,11 @@ const Contact = () => {
                 </div>
             </div>
 
-            <div className="row mt-5 pt-3 justify-content-center">
+            <div className="row mt-4 mt-md-5 pt-3 justify-content-center">
                 <div className="col-lg-10 text-center">
-                    <h2 className="fs-3 fw-bold mb-4">Visit Our Headquarters</h2>
-                    <p className="text-muted mb-4 small">Zuba Plaza, Old Motor Spare Parts Association, Abuja.</p>
-                    <div className="rounded-5 overflow-hidden shadow-sm border" style={{ height: '350px' }}>
+                    <h2 className="fs-4 fs-lg-3 fw-bold mb-3 mb-md-4">Visit Our Headquarters</h2>
+                    <p className="text-muted mb-3 mb-md-4 small">Zuba Plaza, Old Motor Spare Parts Association, Abuja.</p>
+                    <div className="rounded-5 overflow-hidden shadow-sm border" style={{ height: '250px', minHeight: '200px' }}>
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d246.23251435067735!2d7.215673351160404!3d9.089231014224618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e78f13eaaaaab%3A0xae79269c65d725c5!2sNew%20Motor%20Spare%20Parts%20Market%2C%20Zuba!5e0!3m2!1sen!2sng!4v1741270437827!5m2!1sen!2sng"
                             width="100%" height="100%"
