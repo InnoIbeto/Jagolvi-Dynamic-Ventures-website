@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useInventory } from '../context/InventoryContext'
+import { uploadMultipleImages } from '../lib/cloudinary'
+import { success as showSuccess, error as showError } from '../context/ToastContext'
 
 const Admin = () => {
-  const { inventory, addItem, updateItem, deleteItem, adjustQuantity, getMetrics, formatCurrency, categories } = useInventory()
+  const { inventory, addItem, updateItem, deleteItem, adjustQuantity, getMetrics, formatCurrency, categories, loading, error, refetch } = useInventory()
   const metrics = getMetrics()
   const formRef = useRef(null)
 
@@ -14,13 +16,14 @@ const Admin = () => {
     category: categories[0],
     quantity: '',
     price: '',
-    images: ['', '', '']
+    images: [null, null, null]
   })
-  const [imagePreviews, setImagePreviews] = useState(['', '', ''])
+  const [imagePreviews, setImagePreviews] = useState([null, null, null])
+  const [uploading, setUploading] = useState(false)
 
   const resetForm = () => {
-    setFormData({ name: '', description: '', category: categories[0], quantity: '', price: '', images: ['', '', ''] })
-    setImagePreviews(['', '', ''])
+    setFormData({ name: '', description: '', category: categories[0], quantity: '', price: '', images: [null, null, null] })
+    setImagePreviews([null, null, null])
     setEditingId(null)
     setShowForm(false)
   }
@@ -30,39 +33,73 @@ const Admin = () => {
     if (file) {
       const reader = new FileReader()
       reader.onloadend = () => {
-        const newImages = [...formData.images]
-        newImages[index] = reader.result
-        setFormData(prev => ({ ...prev, images: newImages }))
-
         const newPreviews = [...imagePreviews]
         newPreviews[index] = reader.result
         setImagePreviews(newPreviews)
+
+        const newImages = [...formData.images]
+        newImages[index] = file
+        setFormData(prev => ({ ...prev, images: newImages }))
       }
       reader.readAsDataURL(file)
     }
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const filteredImages = formData.images.filter(img => img !== '')
-    const itemData = {
-      ...formData,
-      images: filteredImages,
-      quantity: parseInt(formData.quantity) || 0,
-      price: parseFloat(formData.price) || 0
-    }
+  const removeImage = (index) => {
+    const newImages = [...formData.images]
+    newImages[index] = null
+    setFormData(prev => ({ ...prev, images: newImages }))
 
-    if (editingId) {
-      updateItem(editingId, itemData)
-    } else {
-      addItem(itemData)
+    const newPreviews = [...imagePreviews]
+    newPreviews[index] = null
+    setImagePreviews(newPreviews)
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setUploading(true)
+
+    try {
+      const filesToUpload = formData.images.filter(img => img !== null && typeof img !== 'string')
+      let imageUrls = []
+
+      if (filesToUpload.length > 0) {
+        imageUrls = await uploadMultipleImages(filesToUpload)
+      }
+
+      const existingImages = formData.images.filter(img => typeof img === 'string')
+      const allImages = [...imageUrls, ...existingImages].filter(Boolean).slice(0, 3)
+
+      const itemData = {
+        name: formData.name,
+        description: formData.description,
+        category: formData.category,
+        quantity: parseInt(formData.quantity) || 0,
+        price: parseFloat(formData.price) || 0,
+        images: allImages
+      }
+
+      console.log('Saving item:', itemData)
+
+      if (editingId) {
+        await updateItem(editingId, itemData)
+        showSuccess('Item updated successfully')
+      } else {
+        await addItem(itemData)
+        showSuccess('Item added successfully')
+      }
+      resetForm()
+    } catch (err) {
+      console.error('Error saving item:', err)
+      showError(err.message || 'Failed to save item. Please try again.')
+    } finally {
+      setUploading(false)
     }
-    resetForm()
   }
 
   const handleEdit = (item) => {
     const itemImages = item.images || []
-    const paddedImages = [...itemImages, '', '', ''].slice(0, 3)
+    const paddedImages = [...itemImages, null, null, null].slice(0, 3)
     setEditingId(item.id)
     setFormData({
       name: item.name,
@@ -79,14 +116,55 @@ const Admin = () => {
     }, 100)
   }
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
-      deleteItem(id)
+      try {
+        await deleteItem(id)
+        showSuccess('Item deleted successfully')
+      } catch (err) {
+        showError('Failed to delete item')
+      }
+    }
+  }
+
+  const handleQuantityAdjust = async (id, delta) => {
+    try {
+      await adjustQuantity(id, delta)
+    } catch (err) {
+      console.error('Failed to adjust quantity:', err)
     }
   }
 
   const getImage = (item) => {
     return item.images && item.images.length > 0 ? item.images[0] : null
+  }
+
+  if (loading) {
+    return (
+      <main className="container py-5 min-vh-100">
+        <div className="text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-2 text-muted">Loading inventory...</p>
+        </div>
+      </main>
+    )
+  }
+
+  if (error) {
+    return (
+      <main className="container py-5 min-vh-100">
+        <div className="alert alert-danger" role="alert">
+          <h4 className="alert-heading">Error loading inventory</h4>
+          <p>{error}</p>
+          <hr />
+          <button className="btn btn-outline-danger" onClick={refetch}>
+            Retry
+          </button>
+        </div>
+      </main>
+    )
   }
 
   return (
@@ -172,8 +250,16 @@ const Admin = () => {
                           onChange={(e) => handleImageChange(e, idx)}
                         />
                         {imagePreviews[idx] && (
-                          <div className="mt-2">
+                          <div className="mt-2 position-relative">
                             <img src={imagePreviews[idx]} alt={`Preview ${idx + 1}`} style={{ width: '100%', height: '60px', objectFit: 'cover', borderRadius: '0.5rem' }} />
+                            <button 
+                              type="button"
+                              className="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                              style={{ padding: '2px 6px', fontSize: '10px' }}
+                              onClick={() => removeImage(idx)}
+                            >
+                              ×
+                            </button>
                           </div>
                         )}
                         {idx === 0 && <small className="text-muted d-block mt-1">Required</small>}
@@ -182,11 +268,11 @@ const Admin = () => {
                   </div>
                 </div>
                 <div className="col-12 mt-4">
-                  <button type="submit" className="btn btn-primary btn-lg me-2">
+                  <button type="submit" className="btn btn-primary btn-lg me-2" disabled={uploading}>
                     <i className="bi bi-check-lg me-2"></i>
-                    {editingId ? 'Update Item' : 'Add to Inventory'}
+                    {uploading ? 'Saving...' : (editingId ? 'Update Item' : 'Add to Inventory')}
                   </button>
-                  <button type="button" className="btn btn-outline-secondary btn-lg" onClick={resetForm}>
+                  <button type="button" className="btn btn-outline-secondary btn-lg" onClick={resetForm} disabled={uploading}>
                     Cancel
                   </button>
                 </div>
@@ -340,7 +426,7 @@ const Admin = () => {
                         <div className="d-flex align-items-center">
                           <button 
                             className="btn btn-sm btn-outline-secondary" 
-                            onClick={() => adjustQuantity(item.id, -1)}
+                            onClick={() => handleQuantityAdjust(item.id, -1)}
                             disabled={item.quantity <= 0}
                           >-</button>
                           <span className={`mx-2 fw-bold ${
@@ -351,7 +437,7 @@ const Admin = () => {
                           </span>
                           <button 
                             className="btn btn-sm btn-outline-secondary" 
-                            onClick={() => adjustQuantity(item.id, 1)}
+                            onClick={() => handleQuantityAdjust(item.id, 1)}
                           >+</button>
                         </div>
                       </td>

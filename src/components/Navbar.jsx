@@ -1,13 +1,52 @@
-import React, { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import React, { useState, useRef, useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 const Navbar = () => {
-    const location = useLocation();
-    const [isOpen, setIsOpen] = useState(false);
+    const location = useLocation()
+    const navigate = useNavigate()
+    const { user, profile, signOut } = useAuth()
+    const [isOpen, setIsOpen] = useState(false)
+    const [dropdownOpen, setDropdownOpen] = useState(false)
+    const dropdownRef = useRef(null)
 
-    const isActive = (path) => location.pathname === path ? 'active' : '';
+    const isActive = (path) => location.pathname === path ? 'active' : ''
 
-    const closeMenu = () => setIsOpen(false);
+    const closeMenu = () => setIsOpen(false)
+
+    const handleSignOut = async () => {
+        await signOut()
+        navigate('/')
+        closeMenu()
+        setDropdownOpen(false)
+    }
+
+    const getInitials = () => {
+        const first = profile?.first_name || ''
+        const last = profile?.last_name || ''
+        if (first && last) return `${first[0]}${last[0]}`.toUpperCase()
+        if (first) return first[0].toUpperCase()
+        return user?.email?.[0]?.toUpperCase() || '?'
+    }
+
+    const getDisplayName = () => {
+        if (profile?.first_name) return profile.first_name
+        return user?.email?.split('@')[0] || 'User'
+    }
+
+    const getRoleLabel = () => {
+        return profile?.role === 'admin' ? 'Admin' : 'Customer'
+    }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropdownOpen(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
 
     return (
         <>
@@ -83,11 +122,53 @@ const Navbar = () => {
                             <li className="nav-item">
                                 <Link to="/pages/products" className={`nav-link ${isActive('/pages/products')}`}>Products</Link>
                             </li>
+                            {profile?.role === 'admin' && (
+                                <li className="nav-item">
+                                    <Link to="/pages/admin" className={`nav-link ${isActive('/pages/admin')}`}>Admin</Link>
+                                </li>
+                            )}
                         </ul>
-                        <form className="d-flex" role="search">
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-success" type="submit">Search</button>
-                        </form>
+                        
+                        {user ? (
+                            <div className="dropdown" ref={dropdownRef}>
+                                <button 
+                                    className="btn btn-outline-primary d-flex align-items-center gap-2 dropdown-toggle"
+                                    type="button"
+                                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                                >
+                                    <div className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px', fontSize: '14px' }}>
+                                        {getInitials()}
+                                    </div>
+                                    <span className="d-none d-md-inline">{getDisplayName()}</span>
+                                </button>
+                                <ul className={`dropdown-menu dropdown-menu-end ${dropdownOpen ? 'show' : ''}`} style={{ marginTop: '8px' }}>
+                                    <li>
+                                        <div className="dropdown-item-text">
+                                            <div className="fw-semibold">{profile?.first_name} {profile?.last_name}</div>
+                                            <small className="text-muted">{profile?.role === 'admin' ? 'Administrator' : 'Customer'}</small>
+                                        </div>
+                                    </li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    {profile?.role === 'admin' && (
+                                        <li>
+                                            <Link to="/pages/admin" className="dropdown-item" onClick={() => setDropdownOpen(false)}>
+                                                <i className="bi bi-gear me-2"></i> Admin Dashboard
+                                            </Link>
+                                        </li>
+                                    )}
+                                    <li>
+                                        <button className="dropdown-item text-danger" onClick={handleSignOut}>
+                                            <i className="bi bi-box-arrow-right me-2"></i> Sign Out
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        ) : (
+                            <div className="d-flex gap-2">
+                                <Link to="/pages/login" className="btn btn-outline-primary btn-sm">Sign In</Link>
+                                <Link to="/pages/signup" className="btn btn-primary btn-sm">Sign Up</Link>
+                            </div>
+                        )}
                     </div>
                 </div>
             </nav>
@@ -112,59 +193,59 @@ const Navbar = () => {
             >
                 <ul className="navbar-nav px-4">
                     <li className="nav-item mb-2">
-                        <Link 
-                            to="/" 
-                            className={`nav-link py-3 px-3 rounded-3 ${isActive('/')}`} 
-                            onClick={closeMenu}
-                            style={{ fontSize: '1.1rem' }}
-                        >
+                        <Link to="/" className={`nav-link py-3 px-3 rounded-3 ${isActive('/')}`} onClick={closeMenu} style={{ fontSize: '1.1rem' }}>
                             <i className="bi bi-house-door me-2"></i> Home
                         </Link>
                     </li>
                     <li className="nav-item mb-2">
-                        <Link 
-                            to="/pages/about" 
-                            className={`nav-link py-3 px-3 rounded-3 ${isActive('/pages/about')}`} 
-                            onClick={closeMenu}
-                            style={{ fontSize: '1.1rem' }}
-                        >
+                        <Link to="/pages/about" className={`nav-link py-3 px-3 rounded-3 ${isActive('/pages/about')}`} onClick={closeMenu} style={{ fontSize: '1.1rem' }}>
                             <i className="bi bi-info-circle me-2"></i> About
                         </Link>
                     </li>
                     <li className="nav-item mb-2">
-                        <Link 
-                            to="/pages/products" 
-                            className={`nav-link py-3 px-3 rounded-3 ${isActive('/pages/products')}`} 
-                            onClick={closeMenu}
-                            style={{ fontSize: '1.1rem' }}
-                        >
+                        <Link to="/pages/products" className={`nav-link py-3 px-3 rounded-3 ${isActive('/pages/products')}`} onClick={closeMenu} style={{ fontSize: '1.1rem' }}>
                             <i className="bi bi-box-seam me-2"></i> Products
                         </Link>
                     </li>
                     <li className="nav-item mb-4">
-                        <Link 
-                            to="/pages/contact" 
-                            className={`nav-link py-3 px-3 rounded-3 ${isActive('/pages/contact')}`} 
-                            onClick={closeMenu}
-                            style={{ fontSize: '1.1rem' }}
-                        >
+                        <Link to="/pages/contact" className={`nav-link py-3 px-3 rounded-3 ${isActive('/pages/contact')}`} onClick={closeMenu} style={{ fontSize: '1.1rem' }}>
                             <i className="bi bi-envelope me-2"></i> Contact
                         </Link>
                     </li>
+                    
+                    {profile?.role === 'admin' && (
+                        <li className="nav-item mb-4">
+                            <Link to="/pages/admin" className={`nav-link py-3 px-3 rounded-3 ${isActive('/pages/admin')}`} onClick={closeMenu} style={{ fontSize: '1.1rem' }}>
+                                <i className="bi bi-gear me-2"></i> Admin
+                            </Link>
+                        </li>
+                    )}
                 </ul>
                 
                 <div className="px-4 mt-4">
-                    <div className="input-group">
-                        <input 
-                            className="form-control" 
-                            type="search" 
-                            placeholder="Search..." 
-                            aria-label="Search"
-                        />
-                        <button className="btn btn-primary">
-                            <i className="bi bi-search"></i>
-                        </button>
-                    </div>
+                    {user ? (
+                        <div className="card border-0 bg-light">
+                            <div className="card-body">
+                                <div className="d-flex align-items-center gap-3 mb-3">
+                                    <div className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px', fontSize: '16px' }}>
+                                        {getInitials()}
+                                    </div>
+                                    <div>
+                                        <div className="fw-semibold">{getDisplayName()}</div>
+                                        <small className="text-muted">{getRoleLabel()}</small>
+                                    </div>
+                                </div>
+                                <button className="btn btn-outline-danger w-100" onClick={handleSignOut}>
+                                    Sign Out
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="d-flex gap-2">
+                            <Link to="/pages/login" className="btn btn-outline-primary flex-grow-1">Sign In</Link>
+                            <Link to="/pages/signup" className="btn btn-primary flex-grow-1">Sign Up</Link>
+                        </div>
+                    )}
                 </div>
 
                 <div className="position-absolute bottom-0 start-0 w-100 p-4 border-top">

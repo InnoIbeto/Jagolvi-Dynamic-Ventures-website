@@ -2,10 +2,34 @@ import React, { useState } from 'react'
 import { useInventory } from '../context/InventoryContext'
 
 const Products = () => {
-  const { inventory, formatCurrency, categories } = useInventory()
+  const { inventory, formatCurrency, categories, loading, error } = useInventory()
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchTerm, setSearchTerm] = useState('')
   const [activeImageIndex, setActiveImageIndex] = useState({})
+
+  if (loading) {
+    return (
+      <main className="container py-5 min-vh-100">
+        <div className="text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-2 text-muted">Loading products...</p>
+        </div>
+      </main>
+    )
+  }
+
+  if (error) {
+    return (
+      <main className="container py-5 min-vh-100">
+        <div className="alert alert-danger" role="alert">
+          <h4 className="alert-heading">Error loading products</h4>
+          <p>{error}</p>
+        </div>
+      </main>
+    )
+  }
 
   const filteredInventory = inventory.filter(item => {
     const matchesCategory = activeCategory === 'All' || item.category === activeCategory
