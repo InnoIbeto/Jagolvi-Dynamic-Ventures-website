@@ -23,7 +23,7 @@ const Contact = () => {
         event.preventDefault();
         const { firstName, lastName, email, phoneNumber, message } = formData;
         const whatsappMessage = `Hello, I am ${firstName} ${lastName}. My email is ${email}, and my phone number is ${phoneNumber}. Message: ${message}`;
-        const targetPhone = "2348069481873";
+        const targetPhone = "2349029926061";
         const whatsappURL = `https://wa.me/${targetPhone}?text=${encodeURIComponent(whatsappMessage)}`;
         window.open(whatsappURL, "_blank");
     };
@@ -47,7 +47,7 @@ const Contact = () => {
                             </div>
                             <div>
                                 <div className="text-muted small">Hotline</div>
-                                <div className="fw-bold fs-6">+234 902-992-6061</div>
+                                <a href="tel:+2349029926061" className="fw-bold fs-6 text-decoration-none text-dark">+234 902-992-6061</a>
                             </div>
                         </div>
                         <div className="d-flex align-items-center mb-3 contact-info-item bg-white shadow-sm">
@@ -56,7 +56,7 @@ const Contact = () => {
                             </div>
                             <div>
                                 <div className="text-muted small">WhatsApp</div>
-                                <div className="fw-bold fs-6">+234 806-948-1873</div>
+                                <a href="https://wa.me/2349029926061" target="_blank" rel="noopener noreferrer" className="fw-bold fs-6 text-decoration-none text-dark">+234 902-992-6061</a>
                             </div>
                         </div>
                         <div className="d-flex align-items-center contact-info-item bg-white shadow-sm">
@@ -65,17 +65,17 @@ const Contact = () => {
                             </div>
                             <div>
                                 <div className="text-muted small">Email Address</div>
-                                <div className="fw-bold fs-6">info@jdv.com</div>
+                                <a href="mailto:jdynamicventure@gmail.com" className="fw-bold fs-6 text-decoration-none text-dark">jdynamicventure@gmail.com</a>
                             </div>
                         </div>
 
                         <div className="mt-4 pt-3 border-top">
                             <h5 className="fw-bold mb-3">Our Socials</h5>
                             <div className="d-flex gap-2">
-                                <a href="https://www.instagram.com/k_ibeto?igsh=MTl4bG1sazlqYzQ3dA==" target="_blank" rel="noreferrer" className="btn btn-sm btn-outline-dark rounded-circle">
+                                <a href="https://instagram.com/341" target="_blank" rel="noreferrer" className="btn btn-sm btn-outline-dark rounded-circle">
                                     <i className="bi bi-instagram"></i>
                                 </a>
-                                <a href="https://www.facebook.com/" target="_blank" rel="noreferrer" className="btn btn-sm btn-outline-dark rounded-circle">
+                                <a href="https://www.facebook.com/share/17HDznXSFS/?mibextid=wwXIfr" target="_blank" rel="noreferrer" className="btn btn-sm btn-outline-dark rounded-circle">
                                     <i className="bi bi-facebook"></i>
                                 </a>
                             </div>

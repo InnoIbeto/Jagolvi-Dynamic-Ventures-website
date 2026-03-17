@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { useInventory } from '../context/InventoryContext'
+import { useCart } from '../context/CartContext'
 
 const Products = () => {
   const { inventory, formatCurrency, categories, loading, error } = useInventory()
+  const { addToCart } = useCart()
+  const [addedToast, setAddedToast] = useState(null)
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchTerm, setSearchTerm] = useState('')
   const [activeImageIndex, setActiveImageIndex] = useState({})
@@ -54,6 +57,15 @@ const Products = () => {
     if (newIndex >= item.images.length) newIndex = 0
 
     setActiveImageIndex(prev => ({ ...prev, [itemId]: newIndex }))
+  }
+
+  const handleAddToCart = (item, e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (item.quantity === 0) return
+    addToCart(item, 1)
+    setAddedToast(item.id)
+    setTimeout(() => setAddedToast(null), 2000)
   }
 
   const getCurrentImage = (item) => {
@@ -206,9 +218,32 @@ const Products = () => {
                         {item.description}
                       </p>
                     )}
-                    <div className="mt-auto d-flex justify-content-between align-items-center">
-                      <span className="fw-bold fs-5 text-primary">{formatCurrency(item.price)}</span>
-                      <small className="text-muted">{item.quantity} available</small>
+                    <div className="mt-auto">
+                      <div className="d-flex justify-content-between align-items-center mb-2">
+                        <span className="fw-bold fs-5 text-primary">{formatCurrency(item.price)}</span>
+                        <span className="availability-badge">
+                          {item.quantity} available
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-3">
+                      <button 
+                        className={`btn w-100 ${item.quantity === 0 ? 'btn-secondary' : 'btn-primary'} btn-add-to-cart d-flex align-items-center justify-content-center gap-2`}
+                        onClick={(e) => handleAddToCart(item, e)}
+                        disabled={item.quantity === 0}
+                      >
+                        {addedToast === item.id ? (
+                          <>
+                            <i className="bi bi-check2-circle fs-5"></i>
+                            <span>Added!</span>
+                          </>
+                        ) : (
+                          <>
+                            <i className="bi bi-cart-plus fs-5"></i>
+                            <span>{item.quantity === 0 ? 'Out of Stock' : 'Add to Cart'}</span>
+                          </>
+                        )}
+                      </button>
                     </div>
                   </div>
                 </div>

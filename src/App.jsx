@@ -3,10 +3,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { ToastProvider } from './context/ToastContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import Cart from './components/Cart'
 import Home from './pages/Home'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Products from './pages/Products'
+import Checkout from './pages/Checkout'
+import Payment from './pages/Payment'
 import Admin from './pages/Admin'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -14,6 +17,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import AuthCallback from './pages/AuthCallback'
 import { InventoryProvider } from './context/InventoryContext'
+import { CartProvider } from './context/CartContext'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import './App.css'
 
@@ -82,36 +86,41 @@ const AuthRoute = ({ children }) => {
 function App() {
   return (
     <ToastProvider>
-      <AuthProvider>
-        <InventoryProvider>
-          <Router>
-            <div className="app-container">
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/pages/about" element={<About />} />
-                <Route path="/pages/contact" element={<Contact />} />
-                <Route path="/pages/products" element={<Products />} />
-                
-                {/* Auth Routes */}
-                <Route path="/pages/login" element={<AuthRoute><Login /></AuthRoute>} />
-                <Route path="/pages/signup" element={<AuthRoute><Signup /></AuthRoute>} />
-                <Route path="/pages/forgot-password" element={<AuthRoute><ForgotPassword /></AuthRoute>} />
-                <Route path="/pages/reset-password" element={<ResetPassword />} />
-                <Route path="/auth/callback" element={<AuthCallback />} />
-                
-                {/* Protected Admin Route */}
-                <Route path="/pages/admin" element={
-                  <ProtectedAdminRoute>
-                    <Admin />
-                  </ProtectedAdminRoute>
-                } />
-              </Routes>
-              <Footer />
-            </div>
-          </Router>
-        </InventoryProvider>
-      </AuthProvider>
+      <CartProvider>
+        <AuthProvider>
+          <InventoryProvider>
+            <Router>
+              <div className="app-container">
+                <Navbar />
+                <Cart />
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/pages/about" element={<About />} />
+                  <Route path="/pages/contact" element={<Contact />} />
+                  <Route path="/pages/products" element={<Products />} />
+                  <Route path="/pages/checkout" element={<Checkout />} />
+                  <Route path="/pages/payment" element={<Payment />} />
+                  
+                  {/* Auth Routes */}
+                  <Route path="/pages/login" element={<AuthRoute><Login /></AuthRoute>} />
+                  <Route path="/pages/signup" element={<AuthRoute><Signup /></AuthRoute>} />
+                  <Route path="/pages/forgot-password" element={<AuthRoute><ForgotPassword /></AuthRoute>} />
+                  <Route path="/pages/reset-password" element={<ResetPassword />} />
+                  <Route path="/auth/callback" element={<AuthCallback />} />
+                  
+                  {/* Protected Admin Route */}
+                  <Route path="/pages/admin" element={
+                    <ProtectedAdminRoute>
+                      <Admin />
+                    </ProtectedAdminRoute>
+                  } />
+                </Routes>
+                <Footer />
+              </div>
+            </Router>
+          </InventoryProvider>
+        </AuthProvider>
+      </CartProvider>
     </ToastProvider>
   )
 }

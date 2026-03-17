@@ -24,7 +24,8 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     max-width: 100%;
     overflow-x: hidden;
 }
@@ -234,6 +235,33 @@ a {
     box-shadow: var(--shadow-lg);
 }
 
+.availability-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: #f1f5f9;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-add-to-cart {
+    border-radius: 0.75rem;
+    padding: 0.8rem;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 12px rgba(0, 86, 179, 0.15);
+}
+
+.btn-add-to-cart:hover:not(:disabled) {
+    box-shadow: 0 6px 16px rgba(0, 86, 179, 0.25);
+    transform: scale(1.02);
+}
+
+.btn-add-to-cart:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
 /* Contact Page Refinements */
 .contact-card {
     padding: 2rem !important;
@@ -330,6 +358,20 @@ a {
         padding: 2rem 1rem;
         border-radius: 1rem;
     }
+
+    .product-card .card-body {
+        padding: 1rem !important;
+    }
+
+    .availability-badge {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .btn-add-to-cart {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
 }
 
 @media (max-width: 576px) {
@@ -360,6 +402,7 @@ a {
     from {
         transform: translateX(100%);
     }
+
     to {
         transform: translateX(0%);
     }
@@ -369,6 +412,7 @@ a {
     from {
         transform: translateX(0%);
     }
+
     to {
         transform: translateX(100%);
     }

@@ -1,7 +1,18 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import Carousel from 'bootstrap/js/dist/carousel'
 
 const Home = () => {
+  useEffect(() => {
+    const carousel = document.getElementById('carouselExampleAutoplaying')
+    if (carousel) {
+      new Carousel(carousel, {
+        interval: 3000,
+        ride: 'carousel'
+      })
+    }
+  }, [])
+
   return (
     <main className="container py-4 py-md-5">
       <div className="row text-center justify-content-center mb-4 mb-md-5">
@@ -34,7 +45,7 @@ const Home = () => {
         </div>
 
         <div className="col-lg-7">
-          <div id="carouselExampleAutoplaying" className="carousel slide shadow-lg rounded-4 overflow-hidden" data-bs-ride="carousel">
+          <div id="carouselExampleAutoplaying" className="carousel slide shadow-lg rounded-4 overflow-hidden" data-bs-ride="carousel" data-bs-interval="3000">
             <div className="carousel-inner bg-white" style={{ minHeight: '250px' }}>
               <div className="carousel-item active p-3 p-md-5">
                 <img src="/images/images/Tata Logo.png" className="d-block w-100 mx-auto" alt="Tata Logo" style={{ maxHeight: '200px', objectFit: 'contain' }} />
@@ -60,6 +71,13 @@ const Home = () => {
               <span className="carousel-control-next-icon bg-dark rounded-circle p-2 p-md-3" aria-hidden="true"></span>
               <span className="visually-hidden">Next</span>
             </button>
+            <div className="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="3" aria-label="Slide 4"></button>
+              <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="4" aria-label="Slide 5"></button>
+            </div>
           </div>
         </div>
       </div>

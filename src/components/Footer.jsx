@@ -15,8 +15,8 @@ const Footer = () => {
                             Nigeria's leading marketplace for premium truck spare parts and world-class maintenance services.
                         </p>
                         <div className="d-flex gap-3">
-                            <a href="#" className="text-white opacity-75 hover-primary"><i className="bi bi-facebook fs-5"></i></a>
-                            <a href="#" className="text-white opacity-75 hover-primary"><i className="bi bi-instagram fs-5"></i></a>
+                            <a href="https://www.facebook.com/share/17HDznXSFS/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="text-white opacity-75 hover-primary"><i className="bi bi-facebook fs-5"></i></a>
+                            <a href="https://instagram.com/341" target="_blank" rel="noopener noreferrer" className="text-white opacity-75 hover-primary"><i className="bi bi-instagram fs-5"></i></a>
                             <a href="#" className="text-white opacity-75 hover-primary"><i className="bi bi-linkedin fs-5"></i></a>
                         </div>
                     </div>
@@ -40,11 +40,15 @@ const Footer = () => {
                             </li>
                             <li className="mb-2 d-flex align-items-center">
                                 <i className="bi bi-telephone me-2 text-primary"></i>
-                                <span>+234 902 992 6061</span>
+                                <a href="tel:+2349029926061" className="text-white text-decoration-none">+234 902 992 6061</a>
+                            </li>
+                            <li className="mb-2 d-flex align-items-center">
+                                <i className="bi bi-whatsapp me-2 text-primary"></i>
+                                <a href="https://wa.me/2349029926061" target="_blank" rel="noopener noreferrer" className="text-white text-decoration-none">+234 902 992 6061</a>
                             </li>
                             <li className="mb-2 d-flex align-items-center">
                                 <i className="bi bi-envelope me-2 text-primary"></i>
-                                <span>info@jdv.com</span>
+                                <a href="mailto:jdynamicventure@gmail.com" className="text-white text-decoration-none">jdynamicventure@gmail.com</a>
                             </li>
                         </ul>
                     </div>

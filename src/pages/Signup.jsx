@@ -16,6 +16,8 @@ const Signup = () => {
   })
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -149,28 +151,48 @@ const Signup = () => {
 
                   <div className="mb-3">
                     <label className="form-label fw-semibold">Password</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      required
-                      minLength={6}
-                    />
+                    <div className="position-relative">
+                      <input
+                        type={showPassword ? 'text' : 'password'}
+                        className="form-control pe-5"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                        minLength={6}
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-link position-absolute top-50 end-0 translate-middle-y text-muted p-0 me-2"
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                      </button>
+                    </div>
                     <small className="text-muted">Minimum 6 characters</small>
                   </div>
 
                   <div className="mb-4">
                     <label className="form-label fw-semibold">Confirm Password</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      required
-                    />
+                    <div className="position-relative">
+                      <input
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        className="form-control pe-5"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-link position-absolute top-50 end-0 translate-middle-y text-muted p-0 me-2"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <i className={`bi ${showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                      </button>
+                    </div>
                   </div>
 
                   <button

@@ -1,20 +1,24 @@
 import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const Login = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { signIn, error } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+
+  const from = location.state?.from || '/pages/products'
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     try {
       await signIn(email, password)
-      navigate('/pages/products')
+      navigate(from, { replace: true })
     } catch (err) {
       console.error(err)
     } finally {
@@ -54,13 +58,23 @@ const Login = () => {
 
                   <div className="mb-4">
                     <label className="form-label fw-semibold">Password</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
+                    <div className="position-relative">
+                      <input
+                        type={showPassword ? 'text' : 'password'}
+                        className="form-control pe-5"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-link position-absolute top-50 end-0 translate-middle-y text-muted p-0 me-2"
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                      </button>
+                    </div>
                   </div>
 
                   <button

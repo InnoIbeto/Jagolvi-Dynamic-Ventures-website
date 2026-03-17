@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useCart } from '../context/CartContext'
 
 const Navbar = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const { user, profile, signOut } = useAuth()
+    const { getCartCount, setIsCartOpen } = useCart()
     const [isOpen, setIsOpen] = useState(false)
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const dropdownRef = useRef(null)
@@ -128,6 +130,21 @@ const Navbar = () => {
                                 </li>
                             )}
                         </ul>
+
+                        <button 
+                            className="btn btn-outline-primary position-relative me-3"
+                            onClick={() => setIsCartOpen(true)}
+                        >
+                            <i className="bi bi-cart3"></i>
+                            {getCartCount() > 0 && (
+                                <span 
+                                    className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    style={{ fontSize: '0.7rem' }}
+                                >
+                                    {getCartCount()}
+                                </span>
+                            )}
+                        </button>
                         
                         {user ? (
                             <div className="dropdown" ref={dropdownRef}>
@@ -220,6 +237,23 @@ const Navbar = () => {
                             </Link>
                         </li>
                     )}
+                    <li className="nav-item mb-4">
+                        <button 
+                            className="nav-link py-3 px-3 rounded-3 w-100 text-start btn btn-outline-primary position-relative"
+                            onClick={() => { setIsCartOpen(true); closeMenu(); }}
+                            style={{ fontSize: '1.1rem' }}
+                        >
+                            <i className="bi bi-cart3 me-2"></i> Cart
+                            {getCartCount() > 0 && (
+                                <span 
+                                    className="position-absolute top-50 end-0 me-3 translate-middle-y badge rounded-pill bg-danger"
+                                    style={{ fontSize: '0.7rem' }}
+                                >
+                                    {getCartCount()}
+                                </span>
+                            )}
+                        </button>
+                    </li>
                 </ul>
                 
                 <div className="px-4 mt-4">
